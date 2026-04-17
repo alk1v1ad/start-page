@@ -1,196 +1,273 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>—</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<title>Start</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body {
-      background: #0c0c0d;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Georgia', serif;
-      padding: 3rem 2rem;
-      position: relative;
-      overflow: hidden;
-    }
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&family=Cormorant+Garamond:wght@400&family=Manrope:wght@300&family=Space+Grotesk:wght@300&family=IBM+Plex+Mono:wght@300&display=swap" rel="stylesheet">
 
-    .noise {
-      position: fixed;
-      inset: 0;
-      background-image: radial-gradient(ellipse at 50% 0%, #1a1820 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
 
-    .wrap {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 600px;
-    }
+body{
+  height:100vh;
+  background:linear-gradient(120deg,#050505,#0d0d0d,#050505);
+  background-size:200% 200%;
+  animation:bgMove 20s ease infinite;
+  color:#eaeaea;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  overflow:hidden;
+}
 
-    .clock {
-      font-family: 'SF Mono', 'Fira Mono', 'Courier New', monospace;
-      font-size: clamp(56px, 12vw, 88px);
-      font-weight: 200;
-      letter-spacing: -3px;
-      color: #e8e4dc;
-      line-height: 1;
-      font-variant-numeric: tabular-nums;
-      text-align: center;
-    }
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
 
-    .dateline {
-      font-family: 'SF Mono', 'Fira Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.22em;
-      color: #3d3d40;
-      text-transform: uppercase;
-      margin-top: 10px;
-      text-align: center;
-    }
+/* ФОН */
+.bg{
+  position:fixed;
+  inset:-60%;
+  pointer-events:none;
+  white-space:pre-wrap;
+  filter:blur(0.6px);
+}
 
-    .quote-block {
-      margin-top: 64px;
-      text-align: center;
-      width: 100%;
-    }
+.bg span{
+  display:inline-block;
+  margin-right:12px;
+  transition:opacity 2s ease;
+}
 
-    .quote-mark {
-      font-size: 64px;
-      line-height: 0.6;
-      color: #2a2730;
-      display: block;
-      margin-bottom: 8px;
-      user-select: none;
-    }
+.bg1{font-size:52px;color:rgba(255,255,255,0.06)}
+.bg2{font-size:46px;color:rgba(255,255,255,0.09)}
 
-    .quote-text {
-      font-size: 17px;
-      line-height: 1.8;
-      color: #b0ab9f;
-      font-style: italic;
-      min-height: 56px;
-      transition: opacity 0.45s ease;
-    }
+.container{
+  position:relative;
+  z-index:2;
+  max-width:720px;
+  padding:40px;
+}
 
-    .quote-author {
-      font-family: 'SF Mono', 'Fira Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      color: #3d3a4a;
-      text-transform: uppercase;
-      margin-top: 20px;
-      transition: opacity 0.45s ease;
-    }
+/* ТЕКСТ */
+.time{
+  font-family:'JetBrains Mono', monospace;
+  font-size:82px;
+  letter-spacing:4px;
+}
 
-    .quote-text.fade,
-    .quote-author.fade { opacity: 0; }
+.time.pulse{
+  transform:scale(1.02);
+  text-shadow:0 0 25px rgba(255,255,255,0.2);
+}
 
-    .refresh-btn {
-      margin-top: 40px;
-      background: none;
-      border: 1px solid #222226;
-      color: #3a3840;
-      font-family: 'SF Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 8px 22px;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .refresh-btn:hover { border-color: #3a3840; color: #7a7480; }
-    .refresh-btn:disabled { opacity: 0.3; cursor: default; }
-  </style>
+.date{
+  font-family:'JetBrains Mono', monospace;
+  font-size:14px;
+  color:#777;
+  margin-bottom:50px;
+}
+
+.quote{
+  font-family:'Cormorant Garamond', serif;
+  font-size:26px;
+  line-height:1.6;
+  min-height:80px;
+}
+
+.author{
+  font-family:'Manrope', sans-serif;
+  margin-top:16px;
+  font-size:13px;
+  color:#aaa;
+  letter-spacing:1.5px;
+  opacity:0;
+  transition:0.4s;
+}
+
+.author.show{opacity:1}
+
+button{
+  font-family:'Manrope', sans-serif;
+  margin-top:40px;
+  padding:10px 24px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid #333;
+  color:#aaa;
+  cursor:pointer;
+}
+</style>
 </head>
+
 <body>
-  <div class="noise"></div>
 
-  <div class="wrap">
-    <div class="clock" id="clock">00:00</div>
-    <div class="dateline" id="dateline">—</div>
+<div class="bg bg1" id="bg1"></div>
+<div class="bg bg2" id="bg2"></div>
 
-    <div class="quote-block">
-      <span class="quote-mark">"</span>
-      <div class="quote-text" id="qt">...</div>
-      <div class="quote-author" id="qa">&nbsp;</div>
-      <button class="refresh-btn" id="rbtn" onclick="loadQuote()">↻ &nbsp;новая цитата</button>
-    </div>
-  </div>
+<div class="container">
+  <div class="time" id="time"></div>
+  <div class="date" id="date"></div>
 
-  <script>
-    function updateClock() {
-      const now = new Date();
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('clock').textContent = h + ':' + m;
+  <div class="quote" id="quote"></div>
+  <div class="author" id="author"></div>
 
-      const days = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
-      const months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-      const day = days[now.getDay()];
-      const d = now.getDate();
-      const mo = months[now.getMonth()];
-      document.getElementById('dateline').textContent = day + ' · ' + d + ' ' + mo;
-    }
-    updateClock();
-    setInterval(updateClock, 10000);
+  <button id="btn">новая цитата</button>
+</div>
 
-    async function loadQuote() {
-      const btn = document.getElementById('rbtn');
-      const qt = document.getElementById('qt');
-      const qa = document.getElementById('qa');
+<script>
+/* ВРЕМЯ */
+let lastMinute=-1;
+function updateTime(){
+  const now=new Date();
 
-      btn.disabled = true;
-      qt.classList.add('fade');
-      qa.classList.add('fade');
+  time.textContent=now.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+  date.textContent=now.toLocaleDateString("ru-RU",{weekday:"long",day:"numeric",month:"long"});
 
-      await new Promise(r => setTimeout(r, 400));
+  if(now.getSeconds()===0 && lastMinute!==now.getMinutes()){
+    lastMinute=now.getMinutes();
+    time.classList.add("pulse");
+    setTimeout(()=>time.classList.remove("pulse"),300);
+  }
+}
+setInterval(updateTime,1000);
+updateTime();
 
-      const lang = Math.random() < 0.5 ? 'ru' : 'en';
-      const prompt = lang === 'ru'
-        ? 'Дай одну короткую философскую цитату о смысле жизни, существовании или человеческой природе. Только сама цитата в кавычках, затем на новой строке — имя автора с тире. Без пояснений. Язык: русский.'
-        : 'Give one short philosophical quote about the meaning of life, existence, or human nature. Just the quote in quotation marks, then on a new line the author name with an em dash. No explanations. Language: English.';
+/* ФОН */
+const fonts=[
+  "'JetBrains Mono'",
+  "'IBM Plex Mono'",
+  "'Space Grotesk'",
+  "'Cormorant Garamond'"
+];
 
-      try {
-        const resp = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 200,
-            messages: [{ role: 'user', content: prompt }]
-          })
-        });
-        const data = await resp.json();
-        const raw = data.content.map(b => b.text || '').join('').trim();
-        const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
-        let text = lines[0] || raw;
-        let author = lines[1] || '';
-        text = text.replace(/^["«"']|["»"']$/g, '').trim();
-        author = author.replace(/^[—–-]\s*/, '').trim();
-        qt.textContent = text;
-        qa.textContent = author ? '— ' + author : '';
-      } catch (e) {
-        qt.textContent = 'Жизнь — это то, что происходит, пока ты строишь другие планы.';
-        qa.textContent = '— Джон Леннон';
-      }
+const variants=[
+  "раскайся",
+  "РАСКАЙСЯ",
+  "раскайся.",
+  "раскайся..."
+];
 
-      qt.classList.remove('fade');
-      qa.classList.remove('fade');
-      btn.disabled = false;
-    }
+function gen(el){
+  let html="";
 
-    loadQuote();
-  </script>
+  for(let i=0;i<900;i++){
+    const f=fonts[Math.floor(Math.random()*fonts.length)];
+    const word=variants[Math.floor(Math.random()*variants.length)];
+
+    const rare = Math.random()<0.07; // редкие большие слова
+
+    html+=`<span style="
+      font-family:${f};
+      transform:rotate(${Math.random()*6-3}deg);
+      opacity:${0.7+Math.random()*0.3};
+      font-size:${rare ? "1.4em" : "1em"};
+    ">${word}</span> `;
+  }
+
+  el.innerHTML=html;
+}
+gen(bg1); gen(bg2);
+
+/* PARALLAX */
+let mx=0,my=0,cx=0,cy=0;
+
+window.addEventListener("mousemove",e=>{
+  mx=(e.clientX/innerWidth-0.5);
+  my=(e.clientY/innerHeight-0.5);
+});
+
+function animate(){
+  cx+=(mx-cx)*0.05;
+  cy+=(my-cy)*0.05;
+
+  bg1.style.transform=`translate(${cx*40}px,${cy*40}px) rotate(-25deg)`;
+  bg2.style.transform=`translate(${cx*80}px,${cy*80}px) rotate(-15deg)`;
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* TYPEWRITER */
+function typeText(text,cb){
+  quote.textContent="";
+  let i=0;
+  function step(){
+    if(i<text.length){
+      quote.textContent+=text[i++];
+      setTimeout(step,18);
+    } else cb && cb();
+  }
+  step();
+}
+
+/* ЦИТАТЫ */
+const quotes=[
+["Тот, у кого есть зачем жить, выдержит почти любое как.","Фридрих Ницше"],
+["Мы страдаем больше в воображении, чем в реальности.","Сенека"],
+["Ты имеешь власть над своим разумом.","Марк Аврелий"],
+["Человек осуждён быть свободным.","Сартр"],
+["Абсурд рождается из столкновения человека и мира.","Камю"],
+["Я мыслю, следовательно, существую.","Декарт"],
+["Счастье зависит от нас самих.","Аристотель"],
+["Всё течёт.","Гераклит"],
+["Познай себя.","Сократ"],
+["Свобода — это осознанная необходимость.","Гегель"],
+["Бог умер.","Ницше"],
+["Жизнь — борьба.","Шопенгауэр"],
+["Ад — это другие.","Сартр"],
+["Смысл нужно создавать.","Камю"],
+["Знание — сила.","Бэкон"],
+["Характер — судьба.","Гераклит"],
+["Истина рождается в споре.","Сократ"],
+["Думай сам.","Кант"],
+["Мужество — начало действия.","Демокрит"],
+["Жизнь коротка.","Гиппократ"],
+["Человек — мера всех вещей.","Протагор"],
+["Терпение — сила.","Конфуций"],
+["Путь начинается с шага.","Лао-цзы"],
+["Молчание — учитель.","Пифагор"],
+["Начни сейчас.","—"],
+["Действие важнее слов.","—"],
+["Ты знаешь, что делать.","—"],
+["Контроль — это свобода.","—"],
+["Дисциплина — выбор.","—"],
+["Просто начни.","—"]
+];
+
+function getUnused(){
+  const used=JSON.parse(localStorage.getItem("used")||"[]");
+  return quotes.map((_,i)=>i).filter(i=>!used.includes(i));
+}
+
+function loadQuote(){
+  author.classList.remove("show");
+
+  let unused=getUnused();
+  if(unused.length===0){
+    localStorage.setItem("used","[]");
+    unused=getUnused();
+  }
+
+  const i=unused[Math.floor(Math.random()*unused.length)];
+
+  const used=JSON.parse(localStorage.getItem("used")||"[]");
+  used.push(i);
+  localStorage.setItem("used",JSON.stringify(used));
+
+  typeText(quotes[i][0],()=>{
+    author.textContent="— "+quotes[i][1];
+    author.classList.add("show");
+  });
+}
+
+btn.onclick=loadQuote;
+loadQuote();
+</script>
+
 </body>
 </html>
